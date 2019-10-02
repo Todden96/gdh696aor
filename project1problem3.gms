@@ -50,7 +50,7 @@ z(v) 'If we choose ship v'
 ;
 
 Integer Variables
-x(v,r)
+x(v,r) 'decision variable deciding how many times ship v sails route r'
 ;
 
 Variables
@@ -74,7 +74,8 @@ yearlymain(v)
 *Objective function
 cost .. xi =e= sum(v, f(v)*z(v)) + sum((r,v), B(v,r)*x(v,r));
 
-*Which ships do we use
+*Which ships do we use. Turns z(v) to 1 if we sail either route with ship v
+*We do this to control the one time fee for using ship v.
 useofv(v) .. z(v)*10000 =g= sum(r, x(v,r));
 
 *The minimal ports to serve considering contract
@@ -86,10 +87,12 @@ incompt1 .. sum(h1(p), y(p)) =l= 1;
 *The second incompatible port pair
 incompt2 .. sum(h2(p), y(p)) =l= 1;
 
-*Number of times the ports need to be visited
+*Number of times the ports need to be visited. If y(p) is one, we visit port p.
+*Then if we do, we need to visit it at least d(p) times.
 yearlyvisit(p) .. sum((v,r), C(p,r)*x(v,r)) =g= d(p)*y(p);
 
-*The number of days the ships can be active
+*The number of days the ships can be active. We sum over how many times
+*ship v sails route r.
 yearlymain(v) .. sum(r, A(v,r)*x(v,r)) =l= g(v);
 
 Model ports /all/;

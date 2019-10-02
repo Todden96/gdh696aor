@@ -45,6 +45,9 @@ s23 0   3   1   1   8   4   3   5   0   0
 s24 0   3   2   4   7   6   5   6   4   0
 s25 0   4   2   2   6   7   5   2   2   0
 ;
+
+*I make a binary variable for every player  at every position in every formation
+*as I had problems when a player needed to be assigned only one formation.
 Binary variables
 x(s,p,f) 'is 1 if player s is chosen for position p in formation f'
 y(f) 'chooses which formation to play'
@@ -65,19 +68,20 @@ strength(f) 'all quality players => 1 strength'
 *objective function
 opti .. xi =e= sum((s,p,f), B(s,p)*x(s,p,f));
 
-*one formation
+*one formation only
 formation .. sum(f, y(f)) =e= 1;
 
 *a player can at max play one poosition
 spiller(s,f) .. sum(p, x(s,p,f)) =l= 1;
 
-*We need to fill out every position in every formation
+*We need to fill out every position in every formation. 
 hold(p,f) .. sum(s, x(s,p,f)) =l= y(f)*A(f,p);
 
-*we need at least one quality player
+*we need at least one quality player. If I dont multiply by one this constraint
+*forces all the decision variables to be zero. Bit curious why.
 quality(f) .. sum((subq(s),p), x(s,p,f)) =g= 1*y(f);
 
-*One strength player if all quality players
+*One strength player if all quality players are playing. 
 strength(f) .. sum((subq(s),p), x(s,p,f)) =l= sum((subs(s),p), x(s,p,f)) + card(subq)-1;
 
 model fodbold /all/;
