@@ -1,5 +1,6 @@
 sets
 s 'players' /s1*s25/
+*skrr
 p 'positions' /p1*p10/
 f 'formations' /f1*f6/
 subq(s) 'quality' /s13, s20, s21, s22/
@@ -47,7 +48,7 @@ s25 0   4   2   2   6   7   5   2   2   0
 ;
 Binary variables
 x(s,p,f) 'is 1 if player s is chosen for position p in formation f'
-y(f) 'chooses which formation to play' 
+y(f) 'chooses which formation to play'
 ;
 
 Variables
