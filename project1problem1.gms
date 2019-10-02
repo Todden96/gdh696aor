@@ -1,6 +1,5 @@
 sets
 s 'players' /s1*s25/
-*skrr
 p 'positions' /p1*p10/
 f 'formations' /f1*f6/
 subq(s) 'quality' /s13, s20, s21, s22/
